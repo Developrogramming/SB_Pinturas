@@ -1,0 +1,77 @@
+package com.developrogramming.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.developrogramming.model.Pintura;
+import com.developrogramming.services.PinturaService;
+
+
+@RestController
+public class PinturaController_REST {
+
+	@Autowired
+	PinturaService pinturaService;	
+	
+	/*Para probar este metodo, poner en navegador:
+	  http://localhost:8080/api/pinturas      */
+	@GetMapping(value="/pinturas")
+	public ResponseEntity<List<Pintura>> get(){
+		List<Pintura> modelo = pinturaService.findAll();
+		return new ResponseEntity<List<Pintura>>(modelo, HttpStatus.OK);
+		
+	}
+	
+	/*Para probar este metodo, se puede crear en postman una peticion e inyectar un json de tipo POST
+	 * http://localhost:8080/api/pinturas/save
+	 * 
+	 * info json:
+	 * 
+	 {
+	"nombre": "Girafa",
+	"descripcion": "Pintura Girafa",
+	"tecnica": "Óleo",
+	"soporte": "Lienzo",
+	"anio": "2021",
+	"medidas": "30 x 40 cm",
+	"precio": 120,
+	"imagen": "/imagenes/girafa.jpg"
+	}
+	
+	 */
+	@PostMapping(value="/pinturas/save")
+	public ResponseEntity<Pintura> save(@RequestBody Pintura coche){
+		Pintura cocheSaved = pinturaService.save(coche);
+		return new ResponseEntity<Pintura>(cocheSaved, HttpStatus.OK);
+		
+	}
+	
+	/*Para probar este metodo, crear en postman una peticion de tipo GET
+	 * http://localhost:8080/api/pinturas/3 (3 es el id del cuadro)
+	 */
+	@GetMapping(value="/pinturas/{id}")
+	public ResponseEntity<Pintura> findById(@PathVariable ("id") Long id){
+		Pintura coche= pinturaService.findById(id);
+		return new ResponseEntity<Pintura>(coche, HttpStatus.OK);
+		
+	}
+	
+	/*Para probar este metodo, crear en postman una peticion de tipo DELETE
+	 * http://localhost:8080/api/pinturas/3 (3 es el id del cuadro)
+	 */
+	@DeleteMapping(value="/pinturas/{id}")
+	public ResponseEntity<String> delete(@PathVariable ("id") Long id){
+		pinturaService.delete(id);
+		return new ResponseEntity<String>("Pintura borrada correctamente", HttpStatus.OK);
+		
+	}
+}

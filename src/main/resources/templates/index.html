@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+
+	<table border="1" style="width:70%">
+		<tr>
+			<th>Nombre</th>
+			<th>Descripción</th>
+			<th>Técnica</th>
+			<th>Soporte</th>
+			<th>Año</th>
+			<th>Medidas (cm)</th>
+			<th>Precio (Euros)</th>
+			<th>Imagen</th>
+
+		</tr>
+		<tr th:each="pintura : ${listaPinturas}">
+			<td th:text="${pintura.nombre}"></td>
+			<td th:text="${pintura.descripcion}"></td>
+			<td th:text="${pintura.tecnica}"></td>
+			<td th:text="${pintura.soporte}"></td>
+			<td th:text="${pintura.anio}"></td>
+			<td th:text="${pintura.medidas}"></td>
+			<td th:text="${pintura.precio}"></td>
+			<td><img th:src="@{${'/img/' + pintura.imagen}}" width="40%" height="40%" /></td>
+			<!-- En base de datos se guarda el nombre de la imagen japon.jpg -->
+			<!-- -las imágenes se guardan en el directorio src/main/resources/static/img -->
+		</tr>
+	</table>
+
+
+</body>
+</html>
